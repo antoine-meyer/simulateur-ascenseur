@@ -1,0 +1,76 @@
+APP : Arrivée Passager Palier
+
+SI mode parfait
+	SI la cabine est là
+		SI les portes sont ouvertes
+			SI l'intention est - (le if sert à rien ici car cest le truc qui arrive a tous les coups MAIS SEULEMENT au tour 1)
+				SI y a de la place (O) OU SI intention différente (I)
+					-> on change intention de la cabine
+					-> on ajoute evenement FPC
+					-> le passager a deja ete add a la cabine grace au SI
+				SINON SI plein (P)
+					-> on fait rien
+				FSI
+			SINON SI l'intention est v
+				SI intention différente (I)
+					-> on fait rien
+				SINON SI y a de la place (O)
+					-> on ajoute ou deplace evenement FPC (cas gars se glisse)
+					-> le passager a deja été add à la cabine grace au SINON SI
+				SINON SI plein (p)
+					-> on fait rien
+				FSI
+			SINON SI l'intention est ^
+				SI intention différente (I)
+					-> on fait rien
+				SINON SI y a de la place (O)
+					-> on ajoute ou deplace evenement FPC (cas gars se glisse)
+					-> le passager a deja été add à la cabine grace au SINON SI
+				SINON SI plein (p)
+					-> on fait rien
+				FSI
+			FSI
+		SINON si les portes sont fermées
+			-> on fait rien
+		FSI
+	SINON SI la cabine n'est pas là
+		-> on fait rien
+	FSI
+SINON mode infernal
+	SI la cabine est là
+		SI les portes sont ouvertes
+			SI intention est -
+				SI y a de la place (0)
+					-> on change intention de la cabine
+					-> on ajoute ou deplace evenement FPC (cas gars se glisse)
+					-> le passager a deja été add à la cabine grace au SI
+				SINON SI intention différente (I)
+					-> ///////////////////////////////////////////////////
+				SINON SI plein (P)
+					-> ///////////////////////////////////////////////////
+				FSI
+			SINON SI intention est v
+				SI y a de la place (0)
+					-> ///////////////////////////////////////////////////
+				SINON SI intention différente (I)
+					-> ///////////////////////////////////////////////////
+				SINON SI plein (P)
+					-> ///////////////////////////////////////////////////
+				FSI
+			SINON SI intention est ^
+				SI y a de la place (0)
+					-> ///////////////////////////////////////////////////
+				SINON SI intention différente (I)
+					-> ///////////////////////////////////////////////////
+				SINON SI plein (P)
+					-> ///////////////////////////////////////////////////
+				FSI
+			FSI
+		SINON SI les portes sont fermées
+			-> on fait rien
+		FSI
+	SINON SI la cabine n'est pas là
+		-> on fait rien
+	FSI
+FSI
+-> on ajoute un nouveau APP dans l'échéancier
