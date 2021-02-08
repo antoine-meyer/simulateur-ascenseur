@@ -17,19 +17,28 @@ public class EvenementFermeturePorteCabine extends Evenement {
     public void traiter(Immeuble immeuble, Echeancier echeancier) {
         Cabine cabine = immeuble.cabine;
         assert cabine.porteOuverte;
+        //on ferme les portes de la cabine
         cabine.porteOuverte = false;
-        //SI la cabine va vers le haut ^
-        if(cabine.intention() == '^'){
-            //on monte la cabine d'un étage
-            Etage nouveauEtage = immeuble.étage( cabine.étage.numéro()+1 );
-            //on fait avancer la cabine
-            echeancier.ajouter( new EvenementPassageCabinePalier(date+tempsPourBougerLaCabineDUnEtage, nouveauEtage) );
-        //SINON SI la cabine va vers le bas v
-        }else if(cabine.intention() == 'v'){
-            notYetImplemented();
-        //SINON SI elle ne bouge pas
+
+        //SI la cabine est vide 
+        if(cabine.cabineVide()){
+            //on change l'intention de la cabine en '-'
+            cabine.changerIntention('-');
+        //SINON SI la cabine a des gens
         }else{
-            notYetImplemented();
+            //SI la cabine va vers le haut ^
+            if(cabine.intention() == '^'){
+                //on monte la cabine d'un étage
+                Etage nouveauEtage = immeuble.étage( cabine.étage.numéro()+1 );
+                //on fait avancer la cabine
+                echeancier.ajouter( new EvenementPassageCabinePalier(date+tempsPourBougerLaCabineDUnEtage, nouveauEtage) );
+            //SINON SI la cabine va vers le bas v
+            }else if(cabine.intention() == 'v'){
+                notYetImplemented();
+            //SINON SI elle ne bouge pas
+            }else{
+                notYetImplemented();
+            }
         }
         assert !cabine.porteOuverte;
     }

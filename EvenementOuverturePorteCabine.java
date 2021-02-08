@@ -16,18 +16,49 @@ public class EvenementOuverturePorteCabine extends Evenement {
         Etage étage = cabine.étage;
         assert !cabine.porteOuverte;
 
+        //on ouvre les portes de la cabine
+        cabine.porteOuverte = true;
 
+        //SI il y a des passagers
+        if(!cabine.cabineVide()){           
+            //SI des passagers veulent descendre
+            if(cabine.passagersVeulentDescendre()){
+                //on fait descendre les passagers qui sont arrivés à leur étage
+                cabine.faireDescendrePassagers(immeuble, date);
+            //SINON SI aucuns passagers ne veut descendre
+            }else{
+                notYetImplemented();
+            }
+        //SINON SI il n'y a pas de passagers
+        }else{
+            notYetImplemented();
+        }
 
+        //SI il y a des gens qui attendent la cabine
+        if(étage.aDesPassagers()){
+            notYetImplemented();
 
-        notYetImplemented();
+            //SI les gens qui attendent vont dans le même sens que la cabine 
+                //SI on est en mode parfait 
+                    //ALORS ils montent
+                //SINON SI on est en mode infernal
+                    //ALORS ils montent
+                //FSI
+            //SINON SI les gens attendent mais veulent aller a l'opposé
+                //SI on est en mode parfait
+                    //ALORS on fait rien
+                //SINON SI on est en mode infernal
+                    //ALORS ils montent
+                //FSI
+            //FSI
 
+        //SINON SI il n'y a aucunes personnes qui attend
+        }else{
+            //on ne fait rien : notYetImplemented();
+        }
 
-        //les portes viennent de finir de s'ouvrir
-            //les gens qui doivent descendre descende
-            //si des gens doivent monter, ils montent
-            //les portes doivent se refermer après que tout le monde soit monter puis descendu
-
-
+        //après que tout le monde soit descendu et/ou monté : les portes doivent se refermer
+        echeancier.ajouter(new EvenementFermeturePorteCabine(date+tempsPourOuvrirOuFermerLesPortes));
 
         assert cabine.porteOuverte;
     }

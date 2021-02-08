@@ -121,4 +121,16 @@ public class Cabine extends Global {
 		return false;
 	}
 
+	public boolean cabineVide(){
+		boolean res = true;
+		int i = tableauPassager.length - 1;
+		while (i >= 0 && res == true) {
+			if (tableauPassager[i] != null) {
+				res = false;
+			}
+			i--;
+		}
+		return res;
+	}
+
 }
