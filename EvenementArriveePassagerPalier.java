@@ -21,50 +21,55 @@ public class EvenementArriveePassagerPalier extends Evenement {
 		assert immeuble.étage(étage.numéro()) == étage;
 		Passager p = new Passager(date, étage, immeuble);
 		Cabine c = immeuble.cabine;
-		//SI mode parfait
-		if( isModeParfait() ){
-			//SI la cabine est là
-			if(c.étage == étage){
-				//SI les portes sont ouvertes
-				if(c.porteOuverte){
-					//SI intention -
-					if(c.intention() == '-'){
-						//on regarde s'il reste de la place
-						char place = c.faireMonterPassager(p);
-						//SI y a de la place 0
-						if(place == '0'){
-							notYetImplemented();
-						//SINON SI intention différente I	
-						}else if(place == 'I'){
-							//on change l'intention de la cabine
-							c.changerIntention(p.sens());
-							//on ajoute evenement FPC
-							echeancier.ajouter(new EvenementFermeturePorteCabine(date+tempsPourOuvrirOuFermerLesPortes));
+		
+		//SI la cabine est là
+		if(c.étage == étage){
+			//SI les portes sont ouvertes
+			if(c.porteOuverte){
+				//SI intention -
+				if(c.intention() == '-'){
+					//on regarde s'il reste de la place
+					char place = c.faireMonterPassager(p);
+					//SI y a de la place 0
+					if(place == '0'){
+						notYetImplemented();
+					//SINON SI intention différente I	
+					}else if(place == 'I'){
+						//on change l'intention de la cabine
+						c.changerIntention(p.sens());
+						//on ajoute evenement FPC
+						echeancier.ajouter(new EvenementFermeturePorteCabine(date+tempsPourOuvrirOuFermerLesPortes));
+						//SI mode parfait
+						if(isModeParfait()){
 							//on ajoute le passager à la cabine
 							c.faireMonterPassager(p);
-						//SINON SI plein P
+						//SINON SI mode infernal 
 						}else{
-							notYetImplemented();
+							//rien de spécial
 						}
-					//SINON SI intention v
-					}else if(c.intention() == 'v'){
-						notYetImplemented();
-					//SINON SI intention ^
+					//SINON SI plein P
 					}else{
 						notYetImplemented();
 					}
-				//SINON SI les portes sont fermées
+				//SINON SI intention v
+				}else if(c.intention() == 'v'){
+					notYetImplemented();
+				//SINON SI intention ^
 				}else{
 					notYetImplemented();
 				}
-			//SINON SI la cabine n'est pas là
+			//SINON SI les portes sont fermées
 			}else{
 				notYetImplemented();
 			}
-		//SINON mode infernal
+		//SINON SI la cabine n'est pas là
 		}else{
-			notYetImplemented();
+			//SI intention -
+			if(c.intention() == '-'){
+				notYetImplemented();
+			}
 		}
+
 		//ajout d'un nouveau APP dans l'échéancier
 		date += étage.arrivéeSuivante();
 		echeancier.ajouter(this);

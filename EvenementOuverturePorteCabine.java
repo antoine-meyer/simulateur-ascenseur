@@ -57,8 +57,13 @@ public class EvenementOuverturePorteCabine extends Evenement {
             //on ne fait rien : notYetImplemented();
         }
 
-        //après que tout le monde soit descendu et/ou monté : les portes doivent se refermer
-        echeancier.ajouter(new EvenementFermeturePorteCabine(date+tempsPourOuvrirOuFermerLesPortes));
+        //après que tout le monde soit descendu et/ou monté : les portes doivent se refermer SAUF SI la cabine est vide
+        if(cabine.cabineVide()){
+            //on change l'intention de la cabine en '-'
+            cabine.changerIntention('-');
+        }else{
+            echeancier.ajouter(new EvenementFermeturePorteCabine(date+tempsPourOuvrirOuFermerLesPortes));
+        }
 
         assert cabine.porteOuverte;
     }

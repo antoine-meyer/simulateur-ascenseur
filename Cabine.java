@@ -68,25 +68,36 @@ public class Cabine extends Global {
 		assert p != null;
 		assert !transporte(p);
 		if (modeParfait) {
+			//=> I
 			if (intention != p.sens()) {
 				return 'I'; // Intention
 			}
-		}
-		/*if(modeInfernal){
-			JEN SUIS A LA, FAIRE LA BOUCLE ET SE METTRE DACCORD SUR LE RETOUR POUR ENSUITE BIEN LUTILISER DANS APP
-		}*/
-		//MODE INFERNAL ALORS ON ENTRE SIL Y A DE LA PLACE PEUT IMPORTE INTENTION
-		//
-		//METTRE ICI SI MODE INFERNAL ET SIL Y A DE LA PLACE
-		//ALORS ON AJOUTE QUAND MEME (LES BOURRINS QUI RENTRE DANS LA CABINE 
-		//PEUT IMPORTE OU ELLE VA)
-		for (int i = 0; i < tableauPassager.length; i++) {
-			if (tableauPassager[i] == null) {
-				tableauPassager[i] = p;
-				return 'O'; // comme Ok
+			//=> O
+			for (int i = 0; i < tableauPassager.length; i++) {
+				if (tableauPassager[i] == null) {
+					tableauPassager[i] = p;
+					return 'O'; // comme Ok
+				}
 			}
 		}
-		return 'P'; // Plein
+
+		if(!modeParfait){
+			//SI O ou I
+			for (int i = 0; i < tableauPassager.length; i++) {
+				if (tableauPassager[i] == null) {
+					tableauPassager[i] = p;
+					if(intention != p.sens()) {
+						return 'I'; // Intention
+					}else{
+						return 'O'; // comme Ok
+					}
+				}
+			}
+			//sinon P
+		}
+
+		//=> P
+		return 'P'; //Plein
 	}
 
 	public int faireDescendrePassagers(Immeuble immeuble, long d) {

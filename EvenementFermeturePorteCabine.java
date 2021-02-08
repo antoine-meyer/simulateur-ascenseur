@@ -22,8 +22,7 @@ public class EvenementFermeturePorteCabine extends Evenement {
 
         //SI la cabine est vide 
         if(cabine.cabineVide()){
-            //on change l'intention de la cabine en '-'
-            cabine.changerIntention('-');
+            //cas traiter dans OPC
         //SINON SI la cabine a des gens
         }else{
             //SI la cabine va vers le haut ^
