@@ -22,7 +22,21 @@ public class EvenementFermeturePorteCabine extends Evenement {
 
         //SI la cabine est vide 
         if(cabine.cabineVide()){
-            //cas traiter dans OPC
+            //SI intention est -
+            if(cabine.intention() == '-'){
+                notYetImplemented();
+            }
+            //SINON intention est ^
+            else if(cabine.intention() == '^'){
+                notYetImplemented();
+            }
+            //SINON intention est v
+            else if(cabine.intention() == 'v'){
+                //on descend la cabine d'un étage
+                Etage nouveauEtage = immeuble.étage( cabine.étage.numéro()-1 );
+                //on fait avancer la cabine
+                echeancier.ajouter( new EvenementPassageCabinePalier(date+tempsPourBougerLaCabineDUnEtage, nouveauEtage) );
+            }
         //SINON SI la cabine a des gens
         }else{
             //SI la cabine va vers le haut ^

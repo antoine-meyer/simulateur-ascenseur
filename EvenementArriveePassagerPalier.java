@@ -60,12 +60,48 @@ public class EvenementArriveePassagerPalier extends Evenement {
 				}
 			//SINON SI les portes sont fermées
 			}else{
-				notYetImplemented();
+				//on ajoute le nouvel arrivant à l'étage
+				étage.ajouter(p);
+				//on ajoute un PAP
+				echeancier.ajouter(new EvenementPietonArrivePalier(date+délaiDePatienceAvantSportif, étage, p));
 			}
 		//SINON SI la cabine n'est pas là
 		}else{
+			//on ajoute un PAP
+			echeancier.ajouter(new EvenementPietonArrivePalier(date+délaiDePatienceAvantSportif, étage, p));
 			//SI intention -
 			if(c.intention() == '-'){
+				//SI les portes sont fermées
+				if(c.porteOuverte == false){
+					notYetImplemented();
+				//SINON SI les portes sont ouvertes
+				}else{
+					//on ajoute le nouvel arrivant à l'étage
+					étage.ajouter(p);
+					//on change l'intention de la cabine en regardant
+					//SI il y a des gens au dessus
+					if(immeuble.passagerAuDessus(c.étage)){
+						notYetImplemented();
+					}
+					//SINON SI il y a des gens au dessous
+					else if(immeuble.passagerEnDessous(c.étage)){
+						//on change l'intention de la cabine
+						c.changerIntention('v');
+					}
+					//SINON SI il y a personnes nulles part
+					else{
+						notYetImplemented();
+					}
+					// on ferme les portes
+					echeancier.ajouter(new EvenementFermeturePorteCabine(date+tempsPourOuvrirOuFermerLesPortes));
+				}
+			}
+			//SINON intention ^
+			else if(c.intention() == '^'){
+				notYetImplemented();
+			}
+			//SINON intention v
+			else if(c.intention() == 'v'){
 				notYetImplemented();
 			}
 		}
