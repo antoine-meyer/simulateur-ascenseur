@@ -41,13 +41,31 @@ public class EvenementOuverturePorteCabine extends Evenement {
         if(étage.aDesPassagers()){
             //SI on est en mode parfait
             if(isModeParfait()){
-
-                notYetImplemented();
-                //SI les gens qui attendent vont dans le même sens que la cabine 
-                    //ALORS ils montent
-                //SINON SI les gens attendent mais veulent aller a l'opposé
-                    //ALORS on fait rien
-            
+                //on parcourt les gens qui attendent
+                int index = 0;
+		        while (index < étage.getListPassager().size()) {
+			        Passager p = étage.getListPassager().get(index);
+                    //SI le gens va dans le sens opposé à la cabine
+                    if( p.sens() != cabine.intention() ) {
+                        //ET SI que la cabine descend OU ne bouge pas
+                        if(cabine.intention() == 'v'){
+                            //ET SI il n'y a personne en dessous
+                            if(!immeuble.passagerEnDessous(étage)){
+                                //alors on embarque les gens et on va vers le haut
+                                cabine.faireMonterPassager(p);
+                                entrants = entrants + 1;
+                                cabine.changerIntention('^');
+                            }else{
+                                notYetImplemented();
+                            }
+                        }else{
+                            notYetImplemented();
+                        }
+                    }else{
+                        notYetImplemented();
+                    }
+                    index++;
+		        }
             //SINON SI on est en mode infernal
             }else{
                 //on récupère le 1er passager de la file 
