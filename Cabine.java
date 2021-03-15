@@ -144,4 +144,37 @@ public class Cabine extends Global {
 		return res;
 	}
 
+	public int compteurPassager(){
+		int nbrPassager = 0;
+		for(int i=0; i<nombreDePlacesDansLaCabine; i++){
+			if(tableauPassager[i] != null){
+				nbrPassager = nbrPassager + 1;
+			}
+		}
+		return nbrPassager;
+	}
+
+	public boolean cabinePleine(){
+		boolean res;
+		if(compteurPassager() == nombreDePlacesDansLaCabine){
+			res = true;
+		}else{
+			res = false;
+		}
+		return res;
+	}
+
+	public boolean infernal_suivreLeSensActuel(){
+		boolean s = false;
+		for(int i=0; i<nombreDePlacesDansLaCabine; i++){
+			if(tableauPassager[i] != null){
+				if( tableauPassager[i].sens() == this.intention() ){
+					s = true;
+				}	
+			}	
+		}
+		return s;
+	}
+
+
 }

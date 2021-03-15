@@ -31,26 +31,70 @@ public class EvenementPassageCabinePalier extends Evenement {
         }else{
             //SI un ou des passagers attendent à l'étage
             if(étage.aDesPassagers()){
-                //SI on est en mode parfait
-                if(isModeParfait()){
+                //SI on est en mode parfait ET qu'ils veulent aller dans la même direction que cabine
+                if(isModeParfait() &&
+                (
+                    ( cabine.intention() == 'v' && étage.aDesPassagersQuiDescendent() ) ||
+                    ( cabine.intention() == '^' && étage.aDesPassagersQuiMontent() )
+                )
+                ){
                     //on ouvre les portes de la cabine
                     echeancier.ajouter(new EvenementOuverturePorteCabine(date+tempsPourOuvrirOuFermerLesPortes));
                 }
                 //SINON SI on est en mode infernal
                 else{
-                    //on ouvre les portes de la cabine
-                    echeancier.ajouter(new EvenementOuverturePorteCabine(date+tempsPourOuvrirOuFermerLesPortes));
+                    
+                    if( étage.aDesPassagersQuiDescendent() && cabine.intention() == '^' && immeuble.passagerEnDessous(étage) ){
+                        
+                        //on monte la cabine d'un étage
+                        Etage nouveauEtage = immeuble.étage( cabine.étage.numéro()+1 );
+                        //on fait avancer la cabine
+                        echeancier.ajouter( new EvenementPassageCabinePalier(date+tempsPourBougerLaCabineDUnEtage, nouveauEtage) );
+                        
+                    }else if( étage.aDesPassagersQuiMontent() && cabine.intention() == 'v' && immeuble.passagerAuDessus(étage) ){
+
+                        //on descend la cabine d'un étage
+                        Etage nouveauEtage = immeuble.étage( cabine.étage.numéro()-1 );
+                        //on fait avancer la cabine
+                        echeancier.ajouter( new EvenementPassageCabinePalier(date+tempsPourBougerLaCabineDUnEtage, nouveauEtage) );
+
+                    }else{
+                        //notYetImplemented();
+                        echeancier.ajouter(new EvenementOuverturePorteCabine(date+tempsPourOuvrirOuFermerLesPortes)); 
+                
+                    }
+
+
+        
+                
                 }
             //SINON SI personne ne veut monter
             }else{
                 //SI on va vers le haut
-                if(cabine.intention() == '^'){
-                    //on monte la cabine d'un étage
-                    étage = immeuble.étage( cabine.étage.numéro()+1 );
+                if(cabine.intention() == '^'){ 
+                    //on monte la cabine d'un étage si on est pas à l'étage MAX
+                    if( cabine.étage.numéro() != immeuble.étageLePlusHaut().numéro() ){
+                        étage = immeuble.étage( cabine.étage.numéro()+1 );
+                    }
+                    //si on est à l'étage max alors on change le sens 
+                    if(cabine.étage.numéro() == immeuble.étageLePlusHaut().numéro()){
+                        //System.out.println("CHANGE");
+                        notYetImplemented();
+                    }
                 //SINON SI on va vers le bas
                 }else if(cabine.intention() == 'v'){
                     //on baisse la cabine d'un étage
                     étage = immeuble.étage( cabine.étage.numéro()-1 );
+                    
+                    
+                    /*
+                    //on monte la cabine d'un étage si on est pas à l'étage MAX
+                    if( cabine.étage.numéro() != immeuble.étageLePlusHaut().numéro() ){
+                        étage = immeuble.étage( cabine.étage.numéro()+1 );
+                    }
+                    */
+
+
                 //SINON SI la cabine ne bouge pas
                 }else{
                     notYetImplemented();

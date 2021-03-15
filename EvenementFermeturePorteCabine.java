@@ -28,7 +28,10 @@ public class EvenementFermeturePorteCabine extends Evenement {
             }
             //SINON intention est ^
             else if(cabine.intention() == '^'){
-                notYetImplemented();
+                //on monte la cabine d'un étage
+                Etage nouveauEtage = immeuble.étage( cabine.étage.numéro()+1 );
+                //on fait avancer la cabine
+                echeancier.ajouter( new EvenementPassageCabinePalier(date+tempsPourBougerLaCabineDUnEtage, nouveauEtage) );
             }
             //SINON intention est v
             else if(cabine.intention() == 'v'){
@@ -47,7 +50,10 @@ public class EvenementFermeturePorteCabine extends Evenement {
                 echeancier.ajouter( new EvenementPassageCabinePalier(date+tempsPourBougerLaCabineDUnEtage, nouveauEtage) );
             //SINON SI la cabine va vers le bas v
             }else if(cabine.intention() == 'v'){
-                notYetImplemented();
+                //on descend la cabine d'un étage
+                Etage nouveauEtage = immeuble.étage( cabine.étage.numéro()-1 );
+                //on fait avancer la cabine
+                echeancier.ajouter( new EvenementPassageCabinePalier(date+tempsPourBougerLaCabineDUnEtage, nouveauEtage) );
             //SINON SI elle ne bouge pas
             }else{
                 notYetImplemented();

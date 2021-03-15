@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Etage extends Global {
 	/*
@@ -124,17 +125,8 @@ public class Etage extends Global {
 		return (!passagers.isEmpty());
 	}
 
-	public Passager getPremierPassager(Cabine c){
+	public Passager infernal_getPremierPassager(Cabine c){
 		Passager res = passagers.get(0);
-		boolean trouve = false;
-		int i = 0;
-		while(!trouve && i<passagers.size()){
-			if(passagers.get(i).sens() == c.intention()){
-				res = passagers.get(i);
-				trouve = true;
-			}
-			i = i + 1;
-		}
 		return res;
 	}
 
@@ -144,6 +136,21 @@ public class Etage extends Global {
 
 	public ArrayList<Passager> getListPassager(){
 		return this.passagers;
+	}
+
+	public int faireMonterPassagers(Echeancier e){
+		//liste des enlevés
+		List<Passager> lMontes = new ArrayList<Passager>();
+		for(int i=0; i<passagers.size(); i++){
+			//si il veut aller dans la meme direction que la cabine
+			if(immeuble.cabine.faireMonterPassager(passagers.get(i))=='O'){
+				lMontes.add(passagers.get(i));
+				e.retirerPAP(passagers.get(i));
+				passagers.remove(i);
+				i--;
+			}
+		}
+		return lMontes.size();
 	}
 
 }
