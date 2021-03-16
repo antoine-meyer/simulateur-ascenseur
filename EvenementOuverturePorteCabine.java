@@ -78,13 +78,19 @@ public class EvenementOuverturePorteCabine extends Evenement {
                             //ET SI il n'y a personne en dessous et que quelqu'un veut montrer et personne veut descendre
                             if(!immeuble.passagerEnDessous(étage) && étage.aDesPassagersQuiMontent() && !étage.aDesPassagersQuiDescendent()){
                                 //alors on embarque les gens et on va vers le haut
-                                cabine.changerIntention('^');
-                                char res = cabine.faireMonterPassager(p);
-                                entrants = entrants + 1;
-                                //on enlève le passager de l'étage
-                                étage.retirerPassager(p);
-                                //on enlève le PAP de l'échéancier
-                                echeancier.retirerPAP(p);
+                                //System.out.println("APS TOI MEC");
+                                //si la cabine est vide
+                                if(cabine.cabineVide()){
+                                    cabine.changerIntention('^');
+                                
+                                    //System.out.println("APS TOI MEC 1-"+p.numéroDeCréation+"-"+p.sens());
+                                    char res = cabine.faireMonterPassager(p);
+                                    entrants = entrants + 1;
+                                    //on enlève le passager de l'étage
+                                    étage.retirerPassager(p);
+                                    //on enlève le PAP de l'échéancier
+                                    echeancier.retirerPAP(p);
+                                }
                             //SINON
                             }else{
                                 //si des gens descendent et quelquun veut descendre alors on le prend et pas les autres
@@ -103,7 +109,8 @@ public class EvenementOuverturePorteCabine extends Evenement {
                         }
                     //SINON SI les gens vont dans le même sens que la cabine
                     }else{
-                        entrants = étage.faireMonterPassagers(echeancier);
+                        //System.out.println("APS TOI MEC 2-"+p.numéroDeCréation+"-"+p.sens());
+                        entrants = entrants + étage.faireMonterPassagers(echeancier);
                     }
                     index++;
                 }            

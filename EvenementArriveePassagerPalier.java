@@ -81,16 +81,7 @@ public class EvenementArriveePassagerPalier extends Evenement {
 						//si il y a de la place dans la cabine il rentre
 						if(!c.cabinePleine()){
 							//char place = c.faireMonterPassager(p);
-
 							notYetImplemented();
-
-
-
-
-							//A DEMAIN MON POTE
-
-
-
 						//sinon on le stock
 						}else{
 							//on stock le type
@@ -119,8 +110,6 @@ public class EvenementArriveePassagerPalier extends Evenement {
 				étage.ajouter(p);
 				//on ajoute un PAP
 				echeancier.ajouter(new EvenementPietonArrivePalier(date+délaiDePatienceAvantSportif, étage, p));
-
-
 			}
 		//SINON SI la cabine n'est pas là
 		}else{
