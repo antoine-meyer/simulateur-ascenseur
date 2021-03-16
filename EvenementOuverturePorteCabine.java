@@ -62,6 +62,10 @@ public class EvenementOuverturePorteCabine extends Evenement {
         if(étage.aDesPassagers()){
             //SI on est en mode parfait
             if(isModeParfait()){
+                //si on est à l'étage max alors on change intention pour 'v'
+                if(étage==immeuble.étageLePlusHaut()){
+                    cabine.changerIntention('v');
+                }
                 //on parcourt les gens qui attendent
                 int index = 0;                              //le && sera autour de la méthode qui sera dans Etage !!
                 while (index < étage.getListPassager().size() && !cabine.cabinePleine() ) {
@@ -95,7 +99,7 @@ public class EvenementOuverturePorteCabine extends Evenement {
                         }else if(cabine.intention() == '^'){
                             //on continue de monter
                             //on fait rien de spécial
-                            notYetImplemented();
+                            //notYetImplemented();
                         }
                     //SINON SI les gens vont dans le même sens que la cabine
                     }else{
@@ -151,9 +155,10 @@ public class EvenementOuverturePorteCabine extends Evenement {
                         if(cabine.infernal_suivreLeSensActuel()){
                             
                             //notYetImplemented();
-
+                        //monte, personne au dessus et personne veut aller alors on change
                         }else{
-                            notYetImplemented();
+                            cabine.changerIntention('v');
+                            
                         }
                     }
                 //SINON si la cabine est '-'

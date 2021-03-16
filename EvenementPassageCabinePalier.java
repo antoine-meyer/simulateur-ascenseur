@@ -47,25 +47,47 @@ public class EvenementPassageCabinePalier extends Evenement {
                     if( étage.aDesPassagersQuiDescendent() && cabine.intention() == '^' && immeuble.passagerEnDessous(étage) ){
                         
                         //on monte la cabine d'un étage
-                        Etage nouveauEtage = immeuble.étage( cabine.étage.numéro()+1 );
-                        //on fait avancer la cabine
-                        echeancier.ajouter( new EvenementPassageCabinePalier(date+tempsPourBougerLaCabineDUnEtage, nouveauEtage) );
+                        Etage nouveauEtage;
+                        //si pas étage maximum
+                        if(cabine.étage!=immeuble.étageLePlusHaut()  ){
+                            nouveauEtage = immeuble.étage( cabine.étage.numéro()+1 );
+                            //MAIS SI DES GENS VEULENT MONTER ALORS ON OUVRE
+                            if(étage.aDesPassagersQuiMontent()){
+                                echeancier.ajouter(new EvenementOuverturePorteCabine(date+tempsPourOuvrirOuFermerLesPortes));
+                            }else{
+                                //on fait avancer la cabine
+                                echeancier.ajouter( new EvenementPassageCabinePalier(date+tempsPourBougerLaCabineDUnEtage, nouveauEtage) );
+                            }
+                        //étage maximum
+                        }else{
+                            nouveauEtage = immeuble.étage( cabine.étage.numéro() );
+                            //on ouvre les portes de la cabine
+                            echeancier.ajouter(new EvenementOuverturePorteCabine(date+tempsPourOuvrirOuFermerLesPortes));
+                        }
                         
                     }else if( étage.aDesPassagersQuiMontent() && cabine.intention() == 'v' && immeuble.passagerAuDessus(étage) ){
 
                         //on descend la cabine d'un étage
-                        Etage nouveauEtage = immeuble.étage( cabine.étage.numéro()-1 );
-                        //on fait avancer la cabine
-                        echeancier.ajouter( new EvenementPassageCabinePalier(date+tempsPourBougerLaCabineDUnEtage, nouveauEtage) );
+                        Etage nouveauEtage;
+                        //si pas étage minimum
+                        if(cabine.étage!=immeuble.étageLePlusBas()){
+                            nouveauEtage = immeuble.étage( cabine.étage.numéro()-1 );
+                            //on fait avancer la cabine
+                            echeancier.ajouter( new EvenementPassageCabinePalier(date+tempsPourBougerLaCabineDUnEtage, nouveauEtage) );
+                        //étage minimum
+                        }else{
+                            nouveauEtage = immeuble.étage( cabine.étage.numéro() );
+                            //on ouvre les portes de la cabine
+                            echeancier.ajouter(new EvenementOuverturePorteCabine(date+tempsPourOuvrirOuFermerLesPortes));
+                        }
+                        
+                        
 
                     }else{
                         //notYetImplemented();
                         echeancier.ajouter(new EvenementOuverturePorteCabine(date+tempsPourOuvrirOuFermerLesPortes)); 
                 
                     }
-
-
-        
                 
                 }
             //SINON SI personne ne veut monter

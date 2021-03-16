@@ -99,6 +99,11 @@ public class Etage extends Global {
 		passagers.add(passager);
 	}
 
+	public void ajouterPieton(Passager p){
+		assert p != null;
+		pietons.add(p);
+	}
+
 	public long arrivéeSuivante() {
 		return poissonFrequenceArrivee.suivant();
 	}
@@ -134,8 +139,16 @@ public class Etage extends Global {
 		passagers.remove(p);
 	}
 
+	public void retirerPieton(Passager p){
+		pietons.remove(p);
+	}
+
 	public ArrayList<Passager> getListPassager(){
 		return this.passagers;
+	}
+
+	public ArrayList<Passager> getListPieton(){
+		return this.pietons;
 	}
 
 	public int faireMonterPassagers(Echeancier e){

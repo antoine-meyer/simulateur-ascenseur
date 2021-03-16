@@ -54,6 +54,14 @@ public class EvenementArriveePassagerPalier extends Evenement {
 				//SINON SI intention cabine est 'v'
 				}else if(c.intention() == 'v'){
 					
+					//si c'est le meme sens mais que la cabine est plein alors on stock
+					if(p.sens()=='v' && c.cabinePleine()){
+						//on stock le type
+						étage.ajouter(p);
+						//on ajoute un PAP
+						echeancier.ajouter(new EvenementPietonArrivePalier(date+délaiDePatienceAvantSportif, étage, p));
+					}
+
 					//si le mec veut aller vers le bas et qu'il reste de la place alors il monte
 					if(p.sens() == 'v' && !c.cabinePleine()){
 						//il monte
@@ -68,7 +76,42 @@ public class EvenementArriveePassagerPalier extends Evenement {
 
 				//SINON SI intention ^
 				}else{
-					notYetImplemented();
+					//si le type va vers le haut 
+					if(p.sens()=='^'){
+						//si il y a de la place dans la cabine il rentre
+						if(!c.cabinePleine()){
+							//char place = c.faireMonterPassager(p);
+
+							notYetImplemented();
+
+
+
+
+							//A DEMAIN MON POTE
+
+
+
+						//sinon on le stock
+						}else{
+							//on stock le type
+							étage.ajouter(p);
+							//on ajoute un PAP
+							echeancier.ajouter(new EvenementPietonArrivePalier(date+délaiDePatienceAvantSportif, étage, p));
+						}
+					//si le type va vers le bas
+					}else{
+						//sil y a de la place
+						if(!c.cabinePleine()){
+							//le type saute dans la cabine
+							char place = c.faireMonterPassager(p);
+							//on décale le FPC
+							echeancier.decalerFPC();
+							//SI y a de la place 0
+							if(place == '0'){
+								notYetImplemented();
+							}
+						}
+					}
 				}
 			//SINON SI les portes sont fermées
 			}else{
@@ -106,10 +149,11 @@ public class EvenementArriveePassagerPalier extends Evenement {
 					}
 					//SINON SI il y a des gens au dessous
 					//et cabine vide (racollage moche mais qui marche)
-					if(immeuble.passagerEnDessous(c.étage)&&c.cabineVide()){
+					if(immeuble.passagerEnDessous(c.étage) && c.cabineVide() && c.intention()=='-'){
 						//on change l'intention de la cabine
 						//A CHANGER CAR CHANGEMENT INTENTION QUE DANS OPC !!!!!
 						//on est obligé à cause du pas 5
+						//System.out.println("AZAZAZ");
 						c.changerIntention('v');
 					}
 							
